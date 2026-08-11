@@ -1,18 +1,13 @@
 import axios from 'axios';
+import { ADMIN_BE as CONFIG_ADMIN_BE } from './config/config';
 
-export const ADMIN_BE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_MASTER_BE_URL)
-  ? import.meta.env.VITE_MASTER_BE_URL.replace(/\/$/, '')
-  : 'http://localhost:5001/api';
+const formatUrl = (url) => {
+  if (!url) return 'https://selsolve-updated-backend.vercel.app/api';
+  const clean = url.replace(/\/$/, '');
+  return clean.startsWith('http') ? clean : `https://${clean}`;
+};
 
-
-
-/**
- * Super Admin session helpers.
- *
- * The token is applied to the global axios defaults so every view (Dashboard,
- * Database, Settings, …) authenticates without threading it through props.
- */
-
+export const ADMIN_BE = formatUrl(CONFIG_ADMIN_BE);
 export const ADMIN_API_URL = `${ADMIN_BE}/admin`;
 export const ADMIN_AUTH_URL = `${ADMIN_API_URL}/auth`;
 

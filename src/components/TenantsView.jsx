@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Store, 
-  Search, 
-  Filter, 
-  PlusCircle, 
-  Database, 
-  CheckCircle2, 
-  XCircle, 
-  Edit3, 
-  Sparkles, 
-  Calendar, 
+import {
+  Store,
+  Search,
+  Filter,
+  PlusCircle,
+  Database,
+  CheckCircle2,
+  XCircle,
+  Edit3,
+  Sparkles,
+  Calendar,
   Smartphone,
   Phone,
   Mail,
   ShieldCheck,
+  Eye,
   X
 } from 'lucide-react';
 
-export default function TenantsView({ 
-  tenants, 
-  onToggleStatus, 
-  onUpdateTenant, 
-  onOpenCreateModal 
+import TenantDetailsDrawer from './TenantDetailsDrawer';
+
+export default function TenantsView({
+  tenants,
+  onToggleStatus,
+  onUpdateTenant,
+  onOpenCreateModal,
+  showNotification
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterPlan, setFilterPlan] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [editingTenant, setEditingTenant] = useState(null);
+  const [viewingTenantId, setViewingTenantId] = useState(null);
 
   // Form edit state
   const [editForm, setEditForm] = useState({
@@ -206,6 +211,14 @@ export default function TenantsView({
 
                     <td className="py-4 px-5 text-right space-x-2">
                       <button
+                        onClick={() => setViewingTenantId(t.id)}
+                        className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all"
+                        title="View Shop Details"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
                         onClick={() => handleStartEdit(t)}
                         className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all"
                         title="Edit Shop Details"
@@ -332,6 +345,14 @@ export default function TenantsView({
           </div>
         )}
       </AnimatePresence>
+
+      {/* View Shop Details Slide-over Drawer */}
+      <TenantDetailsDrawer
+        tenantId={viewingTenantId}
+        onClose={() => setViewingTenantId(null)}
+        onUpdateTenant={onUpdateTenant}
+        showNotification={showNotification}
+      />
     </div>
   );
 }

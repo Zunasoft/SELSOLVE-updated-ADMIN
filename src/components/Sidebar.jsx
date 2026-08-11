@@ -44,7 +44,9 @@ export default function Sidebar({
     { id: 'subscriptions', label: 'Subscriptions', icon: UserCheck, badge: null },
     { id: 'plans', label: 'SaaS Plans & Pricing', icon: Sparkles, badge: null },
     { id: 'billing', label: 'Billing & Payments', icon: Activity, badge: null },
-    { id: 'audit', label: 'Audit & Security Logs', icon: ShieldCheck, badge: null }
+    { id: 'database', label: 'Database Health', icon: Database, badge: null },
+    { id: 'audit', label: 'Audit & Security Logs', icon: ShieldCheck, badge: null },
+    { id: 'settings', label: 'Platform Settings', icon: Settings, badge: null }
   ];
 
   return (

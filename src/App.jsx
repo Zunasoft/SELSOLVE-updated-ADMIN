@@ -295,7 +295,9 @@ export default function App() {
               {activeTab === 'subscriptions' && 'Subscriptions, Renewals & Trials'}
               {activeTab === 'plans' && 'SaaS Subscription Tier Matrix'}
               {activeTab === 'billing' && 'SaaS Billing & Razorpay Payments'}
+              {activeTab === 'database' && 'Database Health & Pool Diagnostics'}
               {activeTab === 'audit' && 'Security & Action Audit Trail'}
+              {activeTab === 'settings' && 'Platform Settings & Switches'}
             </h1>
           </div>
 
@@ -339,11 +341,12 @@ export default function App() {
           )}
 
           {activeTab === 'tenants' && (
-            <TenantsView 
+            <TenantsView
               tenants={tenants}
               onToggleStatus={toggleTenantStatus}
               onUpdateTenant={handleUpdateTenant}
               onOpenCreateModal={() => setShowCreateModal(true)}
+              showNotification={showNotification}
             />
           )}
 
@@ -366,8 +369,16 @@ export default function App() {
             <BillingView isDarkMode={isDarkMode} showToast={showNotification} onRefresh={fetchData} />
           )}
 
+          {activeTab === 'database' && (
+            <DatabaseView />
+          )}
+
           {activeTab === 'audit' && (
             <AuditLogsView auditLogs={auditLogs} />
+          )}
+
+          {activeTab === 'settings' && (
+            <SettingsView showNotification={showNotification} />
           )}
         </main>
       </div>

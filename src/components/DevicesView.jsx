@@ -15,8 +15,15 @@ import {
   KeyRound
 } from 'lucide-react';
 
+import { ADMIN_BE } from '../config/config';
 
-const ADMIN_API_URL = `http://localhost:5001/api`;
+const formatUrl = (url) => {
+  if (!url) return 'https://selsolve-updated-backend.vercel.app/api';
+  const clean = url.replace(/\/$/, '');
+  return clean.startsWith('http') ? clean : `https://${clean}`;
+};
+
+const ADMIN_API_URL = `${formatUrl(ADMIN_BE)}/admin`;
 
 const emptyRegisterForm = {
   tenantId: '',
