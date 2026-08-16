@@ -39,6 +39,15 @@ export const saveSession = (token, admin) => {
   applyToken(token);
 };
 
+/**
+ * Refresh the cached profile without touching the token — used after the
+ * operator's own name or role changes, so the console stops showing stale
+ * details until the next sign-in.
+ */
+export const saveAdminProfile = (admin) => {
+  localStorage.setItem(ADMIN_KEY, JSON.stringify(admin));
+};
+
 export const clearSession = () => {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(ADMIN_KEY);

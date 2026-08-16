@@ -28,6 +28,7 @@ import SettingsView from './components/SettingsView';
 import DevicesView from './components/DevicesView';
 import SubscriptionsView from './components/SubscriptionsView';
 import BillingView from './components/BillingView';
+import UsersView from './components/UsersView';
 import {
   ADMIN_API_URL,
   ADMIN_AUTH_URL,
@@ -35,6 +36,7 @@ import {
   getStoredAdmin,
   applyToken,
   saveSession,
+  saveAdminProfile,
   clearSession,
   logout as logoutSession,
   installAuthInterceptor
@@ -135,6 +137,26 @@ export default function App() {
   useEffect(() => {
     if (isAuthenticated) fetchData();
   }, [isAuthenticated]);
+
+  /** Re-read the operator's own account after their name or role changes. */
+  const refreshAdmin = async () => {
+    try {
+      const res = await axios.get(`${ADMIN_AUTH_URL}/me`);
+      setAdmin(res.data.admin);
+      saveAdminProfile(res.data.admin);
+    } catch {
+      // A failed refresh only leaves a stale display name; the interceptor
+      // already handles the case where the session itself is gone.
+    }
+  };
+
+  const canManageUsers = admin?.permissions?.canManageUsers ?? admin?.role === 'SuperAdmin';
+
+  // A Super Admin who is demoted while the Users tab is open would otherwise
+  // sit on a screen every call from which now returns 403.
+  useEffect(() => {
+    if (activeTab === 'users' && !canManageUsers) setActiveTab('dashboard');
+  }, [activeTab, canManageUsers]);
 
   const handleLoginSuccess = (token, adminProfile) => {
     saveSession(token, adminProfile);
@@ -297,6 +319,7 @@ export default function App() {
               {activeTab === 'billing' && 'SaaS Billing & Razorpay Payments'}
               {activeTab === 'database' && 'Database Health & Pool Diagnostics'}
               {activeTab === 'audit' && 'Security & Action Audit Trail'}
+              {activeTab === 'users' && 'Console Users & Login Access'}
               {activeTab === 'settings' && 'Platform Settings & Switches'}
             </h1>
           </div>
@@ -375,6 +398,14 @@ export default function App() {
 
           {activeTab === 'audit' && (
             <AuditLogsView auditLogs={auditLogs} />
+          )}
+
+          {activeTab === 'users' && canManageUsers && (
+            <UsersView
+              showNotification={showNotification}
+              currentAdmin={admin}
+              onSessionChanged={refreshAdmin}
+            />
           )}
 
           {activeTab === 'settings' && (

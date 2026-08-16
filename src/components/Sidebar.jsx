@@ -12,8 +12,9 @@ import {
   ChevronRight, 
   Building2, 
   Cpu, 
-  UserCheck, 
+  UserCheck,
   Activity,
+  Users,
   LogOut
 } from 'lucide-react';
 
@@ -37,6 +38,11 @@ export default function Sidebar({
     .map((w) => w[0].toUpperCase())
     .join('') || 'SA';
 
+  // Console user management is itself a privilege: only a role that carries it
+  // sees the entry. The backend refuses the calls regardless, so hiding the tab
+  // is about not offering a dead end.
+  const canManageUsers = admin?.permissions?.canManageUsers ?? admin?.role === 'SuperAdmin';
+
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard Overview', icon: LayoutDashboard, badge: null },
     { id: 'tenants', label: 'Shops Directory', icon: Store, badge: stats ? stats.totalShops : 0 },
@@ -46,6 +52,7 @@ export default function Sidebar({
     { id: 'billing', label: 'Billing & Payments', icon: Activity, badge: null },
     { id: 'database', label: 'Database Health', icon: Database, badge: null },
     { id: 'audit', label: 'Audit & Security Logs', icon: ShieldCheck, badge: null },
+    ...(canManageUsers ? [{ id: 'users', label: 'Console Users & Access', icon: Users, badge: null }] : []),
     { id: 'settings', label: 'Platform Settings', icon: Settings, badge: null }
   ];
 
@@ -152,6 +159,9 @@ export default function Sidebar({
               <div className="flex flex-col truncate">
                 <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{adminName}</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{adminEmail}</span>
+                <span className="text-[10px] font-bold uppercase text-indigo-600 dark:text-indigo-400 truncate">
+                  {admin?.permissions?.roleLabel || admin?.role || 'Super Admin'}
+                </span>
               </div>
             )}
           </div>
