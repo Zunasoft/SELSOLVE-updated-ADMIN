@@ -8,7 +8,12 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
-  ExternalLink
+  ExternalLink,
+  Receipt,
+  Printer,
+  Eye,
+  X,
+  Building2
 } from 'lucide-react';
 
 import { ADMIN_BE } from '../config/config';
@@ -140,7 +145,7 @@ export default function BillingView({ isDarkMode, showToast }) {
         <div>
           <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
             <CreditCard className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-            SaaS Billing & Payments
+            SaaS Billing & Invoices
             {config && (
               <span className={`text-[11px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border ${config.mode === 'LIVE'
                   ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
@@ -151,52 +156,37 @@ export default function BillingView({ isDarkMode, showToast }) {
             )}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Create Razorpay payment orders, track collections, and reconcile every renewal transaction.
+            Enterprise billing & invoice register: create payment orders, track collections, and print tax receipts.
           </p>
         </div>
       </div>
 
-      {/* Simulation Mode Notice */}
-      {config && config.mode === 'SIMULATION' && (
-        <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-semibold flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-          <span>
-            Live Razorpay keys are not configured for this environment. All payment orders will be <strong>simulated</strong> —
-            no real money moves, and outcomes must be forced manually using the Simulate Success / Failure buttons.
-          </span>
+      {/* KPI Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="panel-light p-5 rounded-3xl space-y-1">
+          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Total Invoiced</span>
+          <div className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+            <Receipt className="w-4 h-4 text-indigo-600" />
+            {summary ? formatCurrency(summary.totalVolume) : '₹0'}
+          </div>
         </div>
-      )}
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         <div className="panel-light p-5 rounded-3xl space-y-1">
-          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Collected (All Time)</span>
-          <div className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-purple-600" />
-            {formatCurrency(summary?.collected)}
-          </div>
-        </div>
-        <div className="panel-light p-5 rounded-3xl space-y-1">
-          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Collected This Month</span>
-          <div className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-            <CalendarDays className="w-4 h-4 text-indigo-600" />
-            {formatCurrency(summary?.thisMonth)}
-          </div>
-        </div>
-        <div className="panel-light p-5 rounded-3xl space-y-1">
-          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Successful</span>
+          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Paid Invoices</span>
           <div className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4" />
-            {summary ? summary.count : 0}
+            {summary ? summary.successful : 0}
           </div>
         </div>
+
         <div className="panel-light p-5 rounded-3xl space-y-1">
-          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Failed</span>
+          <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Failed / Void</span>
           <div className="text-xl font-extrabold text-rose-600 dark:text-rose-400 flex items-center gap-2">
             <XCircle className="w-4 h-4" />
             {summary ? summary.failed : 0}
           </div>
         </div>
+
         <div className="panel-light p-5 rounded-3xl space-y-1">
           <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">Pending</span>
           <div className="text-xl font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-2">
@@ -210,7 +200,7 @@ export default function BillingView({ isDarkMode, showToast }) {
       <div className="panel-light p-6 rounded-3xl space-y-4">
         <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <CreditCard className="w-4 h-4 text-indigo-600" />
-          Collect Payment
+          Create Payment / Billing Order
         </h3>
 
         <form onSubmit={handleCreateOrder} className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
@@ -285,7 +275,7 @@ export default function BillingView({ isDarkMode, showToast }) {
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3 text-xs">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               <span><strong className="text-slate-900 dark:text-white">Order ID:</strong> <span className="font-mono">{activeOrder.orderId}</span></span>
-              <span><strong className="text-slate-900 dark:text-white">Receipt:</strong> <span className="font-mono">{activeOrder.receipt}</span></span>
+              <span><strong className="text-slate-900 dark:text-receipt">Receipt:</strong> <span className="font-mono">{activeOrder.receipt}</span></span>
             </div>
 
             {config?.mode === 'SIMULATION' ? (
@@ -320,6 +310,14 @@ export default function BillingView({ isDarkMode, showToast }) {
 
       {/* Filter Bar */}
       <div className="panel-light p-4 rounded-2xl flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
+          <Receipt className="w-4 h-4 text-indigo-600" />
+          <span>Invoices & Payments Register</span>
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+            {filteredPayments.length} records
+          </span>
+        </div>
+
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -332,38 +330,41 @@ export default function BillingView({ isDarkMode, showToast }) {
         </select>
       </div>
 
-      {/* Payments Table */}
+      {/* Payments & Invoices Table in Rows */}
       <div className="panel-light rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-800 text-[11px] font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-800/40">
                 <th className="py-4 px-5">Date</th>
-                <th className="py-4 px-5">Receipt</th>
+                <th className="py-4 px-5">Invoice / Receipt</th>
                 <th className="py-4 px-5">Shop</th>
                 <th className="py-4 px-5">Plan</th>
                 <th className="py-4 px-5">Purpose</th>
                 <th className="py-4 px-5">Amount</th>
-                <th className="py-4 px-5">Gateway Payment ID</th>
+                <th className="py-4 px-5">Payment ID</th>
                 <th className="py-4 px-5">Status</th>
+                <th className="py-4 px-5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-xs font-medium">
               {loading ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-12 text-slate-500 dark:text-slate-400">Loading payments…</td>
+                  <td colSpan="9" className="text-center py-12 text-slate-500 dark:text-slate-400">Loading payments…</td>
                 </tr>
               ) : filteredPayments.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-12 text-slate-500 dark:text-slate-400">No payments match this filter.</td>
+                  <td colSpan="9" className="text-center py-12 text-slate-500 dark:text-slate-400">No payments match this filter.</td>
                 </tr>
               ) : (
                 filteredPayments.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="py-4 px-5 font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                      {new Date(p.createdAt).toLocaleString()}
+                      {new Date(p.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </td>
-                    <td className="py-4 px-5 font-mono text-[11px] text-indigo-600 dark:text-indigo-400">{p.receipt}</td>
+                    <td className="py-4 px-5 font-mono text-[11px] font-bold text-indigo-600 dark:text-indigo-400">
+                      {p.receipt}
+                    </td>
                     <td className="py-4 px-5 font-bold text-slate-900 dark:text-white">{p.shopName}</td>
                     <td className="py-4 px-5 text-slate-700 dark:text-slate-300">{p.planName}</td>
                     <td className="py-4 px-5 text-slate-600 dark:text-slate-400">{p.purpose}</td>
@@ -372,6 +373,15 @@ export default function BillingView({ isDarkMode, showToast }) {
                       {truncateId(p.razorpayPaymentId)}
                     </td>
                     <td className="py-4 px-5">{statusBadge(p.status, p.failureReason)}</td>
+                    <td className="py-4 px-5 text-right">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedInvoice(p)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 transition-colors"
+                      >
+                        <Eye className="w-3.5 h-3.5" /> View
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -379,6 +389,103 @@ export default function BillingView({ isDarkMode, showToast }) {
           </table>
         </div>
       </div>
+
+      {/* SaaS Tax Invoice Modal */}
+      {selectedInvoice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+              <div className="flex items-center gap-2">
+                <Receipt className="w-5 h-5 text-indigo-600" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                  SaaS Tax Invoice — {selectedInvoice.receipt}
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedInvoice(null)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Printable Invoice Container */}
+            <div id="printable-admin-invoice" className="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-4 font-sans">
+              <div className="flex justify-between items-start border-b border-slate-200 dark:border-slate-700 pb-4">
+                <div>
+                  <div className="text-xl font-black text-slate-900 dark:text-white">SELSOLVE ENTERPRISE</div>
+                  <div className="text-slate-500 mt-0.5">SaaS POS & Multi-Store Management Platform</div>
+                  <div className="text-slate-600 dark:text-slate-400 mt-1">GSTIN: 33AAAAA0000A1Z5 · Support: help@selsolve.com</div>
+                </div>
+                <div className="text-right">
+                  <div className="px-2.5 py-1 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-extrabold uppercase text-[10px]">
+                    TAX INVOICE
+                  </div>
+                  <div className="font-mono font-bold text-slate-900 dark:text-white mt-1.5">{selectedInvoice.receipt}</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
+                <div>
+                  <span className="text-[10px] font-bold uppercase text-slate-400">Billed To:</span>
+                  <div className="font-bold text-slate-900 dark:text-white text-sm">{selectedInvoice.shopName}</div>
+                  <div className="text-slate-500">Tenant ID: {selectedInvoice.tenantId}</div>
+                </div>
+                <div className="text-right space-y-1">
+                  <div><span className="text-slate-400">Date:</span> <strong>{new Date(selectedInvoice.createdAt).toLocaleDateString('en-IN')}</strong></div>
+                  <div><span className="text-slate-400">Payment Ref:</span> <strong className="font-mono">{selectedInvoice.razorpayPaymentId || 'N/A'}</strong></div>
+                  <div><span className="text-slate-400">Status:</span> <strong className="text-emerald-600">{selectedInvoice.status}</strong></div>
+                </div>
+              </div>
+
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-200 dark:border-slate-700 text-[10.5px] font-bold uppercase text-slate-500">
+                    <th className="py-2">Description</th>
+                    <th className="py-2">Type</th>
+                    <th className="py-2 text-right">Tax (18%)</th>
+                    <th className="py-2 text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                  <tr>
+                    <td className="py-2.5 font-bold text-slate-900 dark:text-white">
+                      {selectedInvoice.planName} SaaS Subscription
+                    </td>
+                    <td className="py-2.5 text-slate-500">{selectedInvoice.purpose}</td>
+                    <td className="py-2.5 text-right font-mono text-slate-500">
+                      {formatCurrency(Math.round(selectedInvoice.amount * 0.18 / 1.18))}
+                    </td>
+                    <td className="py-2.5 text-right font-mono font-bold text-slate-900 dark:text-white">
+                      {formatCurrency(selectedInvoice.amount)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div className="flex justify-between items-center border-t-2 border-slate-900 dark:border-slate-600 pt-3 text-sm font-extrabold text-slate-900 dark:text-white">
+                <span>Total Amount Paid (Inclusive of GST):</span>
+                <span className="text-indigo-600 font-mono text-base">{formatCurrency(selectedInvoice.amount)}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setSelectedInvoice(null)}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-colors"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors inline-flex items-center gap-1.5"
+              >
+                <Printer className="w-3.5 h-3.5" /> Print Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
