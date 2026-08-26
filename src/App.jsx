@@ -207,6 +207,12 @@ export default function App() {
 
   const toggleTenantStatus = async (tenant) => {
     const newStatus = tenant.status === 'active' ? 'inactive' : 'active';
+    if (
+      newStatus === 'inactive' &&
+      !window.confirm(`Deactivate "${tenant.name}"? This immediately cuts off POS access for the shop.`)
+    ) {
+      return;
+    }
     try {
       const res = await axios.patch(`${ADMIN_API_URL}/tenants/${tenant.id}/status`, { status: newStatus });
       if (res.data.success) {

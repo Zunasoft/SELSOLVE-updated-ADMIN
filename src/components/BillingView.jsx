@@ -45,6 +45,7 @@ export default function BillingView({ isDarkMode, showToast }) {
   const [creatingOrder, setCreatingOrder] = useState(false);
   const [activeOrder, setActiveOrder] = useState(null);
   const [simulating, setSimulating] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   const fetchAll = async () => {
     setLoading(true);

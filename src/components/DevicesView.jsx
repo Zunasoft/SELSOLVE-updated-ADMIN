@@ -73,6 +73,9 @@ export default function DevicesView({ isDarkMode, showToast }) {
 
   const handleToggleStatus = async (device) => {
     const nextStatus = device.status === 'active' ? 'blocked' : 'active';
+    if (nextStatus === 'blocked' && !window.confirm(`Block "${device.deviceName}"? It will be signed out immediately.`)) {
+      return;
+    }
     try {
       await axios.patch(`${ADMIN_API_URL}/devices/${device.id}/status`, { status: nextStatus });
       showToast(`${device.deviceName} is now ${nextStatus}.`);

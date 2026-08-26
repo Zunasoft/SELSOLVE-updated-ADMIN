@@ -219,7 +219,7 @@ export default function PlansView({ plans, onUpdatePlan }) {
                     <input
                       type="number"
                       value={planForm.price}
-                      onChange={(e) => setPlanForm({ ...planForm, price: e.target.value })}
+                      onChange={(e) => setPlanForm({ ...planForm, price: parseInt(e.target.value, 10) || 0 })}
                       className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500"
                       required
                     />
@@ -230,7 +230,7 @@ export default function PlansView({ plans, onUpdatePlan }) {
                     <input
                       type="number"
                       value={planForm.maxDevices}
-                      onChange={(e) => setPlanForm({ ...planForm, maxDevices: e.target.value })}
+                      onChange={(e) => setPlanForm({ ...planForm, maxDevices: parseInt(e.target.value, 10) || 1 })}
                       className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500"
                       required
                     />
