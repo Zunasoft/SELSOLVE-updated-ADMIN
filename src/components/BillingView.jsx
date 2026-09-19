@@ -276,7 +276,7 @@ export default function BillingView({ isDarkMode, showToast }) {
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3 text-xs">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               <span><strong className="text-slate-900 dark:text-white">Order ID:</strong> <span className="font-mono">{activeOrder.orderId}</span></span>
-              <span><strong className="text-slate-900 dark:text-receipt">Receipt:</strong> <span className="font-mono">{activeOrder.receipt}</span></span>
+              <span><strong className="text-slate-900 dark:text-white">Receipt:</strong> <span className="font-mono">{activeOrder.receipt}</span></span>
             </div>
 
             {config?.mode === 'SIMULATION' ? (
@@ -310,7 +310,7 @@ export default function BillingView({ isDarkMode, showToast }) {
       </div>
 
       {/* Filter Bar */}
-      <div className="panel-light p-4 rounded-2xl flex items-center justify-between gap-4">
+      <div className="panel-light p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300">
           <Receipt className="w-4 h-4 text-indigo-600" />
           <span>Invoices & Payments Register</span>

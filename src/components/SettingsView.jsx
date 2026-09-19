@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { 
-  Settings, 
-  AlertTriangle, 
-  Bell, 
-  Clock, 
-  Save, 
-  CheckCircle2, 
-  ShieldAlert,
-  ShieldCheck
-} from 'lucide-react';
+import { Settings, AlertTriangle, Bell, Clock, Save } from 'lucide-react';
 
 import { ADMIN_BE } from '../config/config';
 
@@ -142,10 +133,11 @@ export default function SettingsView({ showNotification }) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center gap-2"
+            disabled={loading}
+            className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition-all flex items-center gap-2 disabled:opacity-60"
           >
             <Save className="w-4 h-4" />
-            Save Platform Settings
+            {loading ? 'Loading Settings…' : 'Save Platform Settings'}
           </button>
         </div>
       </form>

@@ -38,9 +38,7 @@ export default function Sidebar({
     .map((w) => w[0].toUpperCase())
     .join('') || 'SA';
 
-  // Console user management is itself a privilege: only a role that carries it
-  // sees the entry. The backend refuses the calls regardless, so hiding the tab
-  // is about not offering a dead end.
+  // Hidden (not just blocked) so an unprivileged role doesn't land on a dead-end tab
   const canManageUsers = admin?.permissions?.canManageUsers ?? admin?.role === 'SuperAdmin';
 
   const menuItems = [
@@ -62,7 +60,7 @@ export default function Sidebar({
         isDarkMode 
           ? 'bg-slate-900 border-r border-slate-800 text-slate-100' 
           : 'bg-white border-r border-slate-200 text-slate-800 shadow-sm'
-      } ${isCollapsed ? 'w-20' : 'w-64'}`}
+      } ${isCollapsed ? 'w-16 sm:w-20' : 'w-56 sm:w-64'}`}
     >
       {/* Brand Header */}
       <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
@@ -120,8 +118,6 @@ export default function Sidebar({
                 <Icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-indigo-600'}`} />
                 {!isCollapsed && <span className="truncate">{item.label}</span>}
               </div>
-
-             
             </button>
           );
         })}

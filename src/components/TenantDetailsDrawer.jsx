@@ -215,7 +215,7 @@ export default function TenantDetailsDrawer({ tenantId, onClose, onUpdateTenant,
                     title="Shop Profile"
                     right={<Badge active={tenant.status === 'active'} />}
                   >
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <InfoRow icon={Mail} label="Owner Email" value={tenant.email} mono />
                       <InfoRow icon={Phone} label="Phone" value={tenant.phone} />
                       <InfoRow icon={Layers} label="Slug" value={tenant.slug} mono />
@@ -231,7 +231,7 @@ export default function TenantDetailsDrawer({ tenantId, onClose, onUpdateTenant,
 
                   {/* 2. Subscription */}
                   <SectionCard icon={CreditCard} title="Subscription & Billing">
-                    <div className="grid grid-cols-2 gap-4 text-xs">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                       <InfoRow icon={Sparkles} label="Plan" value={plan ? plan.name : tenant.plan} />
                       <InfoRow
                         icon={CreditCard}
@@ -379,7 +379,7 @@ export default function TenantDetailsDrawer({ tenantId, onClose, onUpdateTenant,
                       </div>
                     ) : (
                       <>
-                        <div className="grid grid-cols-2 gap-4 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                           <InfoRow icon={Database} label="Database Name" value={database.dbName} mono />
                           <InfoRow icon={Layers} label="Collections" value={database.collections} />
                           <InfoRow icon={HardDrive} label="Disk Size" value={`${database.sizeMB} MB`} />

@@ -3,18 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Store,
   Search,
-  Filter,
   PlusCircle,
   Database,
-  CheckCircle2,
-  XCircle,
   Edit3,
   Sparkles,
-  Calendar,
   Smartphone,
   Phone,
   Mail,
-  ShieldCheck,
   Eye,
   X
 } from 'lucide-react';

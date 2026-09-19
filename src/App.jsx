@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Building2, 
-  PlusCircle, 
-  CheckCircle2, 
-  XCircle, 
-  RefreshCw,
-  Search,
-  Bell,
-  Sun,
-  Moon,
-  Menu,
-  X,
-  Database,
-  Sparkles
-} from 'lucide-react';
+import { PlusCircle, CheckCircle2, XCircle, RefreshCw, X } from 'lucide-react';
 
 import Sidebar from './components/Sidebar';
 import SuperAdminLogin from './components/SuperAdminLogin';
@@ -312,11 +298,11 @@ export default function App() {
       />
 
       {/* Main Content Workspace Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${isCollapsed ? 'ml-20' : 'ml-64'}`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${isCollapsed ? 'ml-16 sm:ml-20' : 'ml-56 sm:ml-64'}`}>
         {/* Top Navbar Header */}
-        <header className="h-16 px-6 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-base font-extrabold text-slate-900 dark:text-white capitalize">
+        <header className="h-16 px-4 sm:px-6 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <h1 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white capitalize truncate">
               {activeTab === 'dashboard' && 'Dashboard Analytics Overview'}
               {activeTab === 'tenants' && 'Tenants Directory'}
               {activeTab === 'devices' && 'Device Mapping & Licence Control'}
@@ -330,32 +316,19 @@ export default function App() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <button 
               onClick={fetchData} 
               className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold transition-all flex items-center gap-1.5"
               title="Sync Platform Data"
             >
               <RefreshCw className={`w-4 h-4 text-indigo-600 ${loading ? 'animate-spin' : ''}`} />
-              {/* <span className="hidden sm:inline">Sync Platform</span>
-              
-              
-              
-              */}
             </button>
-
-            {/* <button 
-              onClick={() => setShowCreateModal(true)} 
-              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 transition-all flex items-center gap-1.5"
-            >
-              <PlusCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">Provision Shop</span>
-            </button> */}
           </div>
         </header>
 
         {/* Dynamic View Container */}
-        <main className="p-6 md:p-8 max-w-7xl w-full mx-auto flex-1">
+        <main className="p-4 sm:p-6 md:p-8 max-w-7xl w-full mx-auto flex-1">
           {activeTab === 'dashboard' && (
             <DashboardView 
               stats={stats}

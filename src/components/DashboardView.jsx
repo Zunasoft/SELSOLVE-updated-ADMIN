@@ -1,21 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Store, 
-  CheckCircle2, 
-  Database, 
-  DollarSign, 
-  TrendingUp, 
-  PlusCircle, 
-  RefreshCw, 
-  Cpu, 
-  ShieldCheck, 
-  Sparkles, 
-  Activity, 
-  ArrowUpRight,
-  Clock,
-  Layers
-} from 'lucide-react';
+import { Store, CheckCircle2, DollarSign, TrendingUp, Sparkles, Activity, ArrowUpRight, Clock } from 'lucide-react';
 
 export default function DashboardView({ 
   stats, 
@@ -34,8 +19,6 @@ export default function DashboardView({
 
   return (
     <div className="space-y-8">
-     
-
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
         {[

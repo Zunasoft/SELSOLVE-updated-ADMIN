@@ -1,8 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // Theme is driven by the `dark` class App.jsx toggles on <html>.
-  // Without this, every `dark:` utility falls back to prefers-color-scheme
-  // and the light theme renders dark text styles on light surfaces.
+  // App.jsx toggles the `dark` class on <html>; without 'class' mode, dark: utilities would follow OS preference instead
   darkMode: 'class',
   content: [
     "./index.html",

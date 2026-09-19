@@ -214,8 +214,6 @@ export default function UsersView({ showNotification, currentAdmin, onSessionCha
         </div>
       </div>
 
-      
-
       {/* Users Table */}
       <div className="panel-light rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
@@ -268,7 +266,6 @@ export default function UsersView({ showNotification, currentAdmin, onSessionCha
                                 You
                               </span>
                             )}
-                           
                           </div>
                           <div className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5 flex items-center gap-1">
                             <Mail className="w-3 h-3" />

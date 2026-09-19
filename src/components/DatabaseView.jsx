@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { 
-  Database, 
-  Cpu, 
-  Activity, 
-  HardDrive, 
-  RefreshCw, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Layers,
-  Zap
-} from 'lucide-react';
+import { Database, Cpu, Activity, HardDrive, RefreshCw, CheckCircle2, Layers, Zap } from 'lucide-react';
 
 import { ADMIN_BE } from '../config/config';
 

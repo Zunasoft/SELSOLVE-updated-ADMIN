@@ -1,18 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Sparkles,
-  Check,
-  Edit3,
-  ShieldCheck,
-  Smartphone,
-  DollarSign,
-  Layers,
-  Users,
-  Tag,
-  X
-} from 'lucide-react';
+import { Sparkles, Check, Edit3, Smartphone, Users, Tag, X } from 'lucide-react';
 
 import { ADMIN_API_URL } from '../authClient';
 
@@ -261,7 +250,7 @@ export default function PlansView({ plans, onUpdatePlan }) {
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                           {group}
                         </div>
-                        <div className="grid grid-cols-2 gap-1.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                           {feats.map((f) => {
                             const on = f.core ? true : planForm.features.includes(f.key);
                             return (

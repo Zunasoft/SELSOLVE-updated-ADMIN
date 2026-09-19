@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  ShieldCheck, 
-  Search, 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
-  User, 
-  Terminal,
-  Filter
-} from 'lucide-react';
+import { ShieldCheck, Search, Clock, CheckCircle2, XCircle, User } from 'lucide-react';
 
 export default function AuditLogsView({ auditLogs }) {
   const [searchQuery, setSearchQuery] = useState('');
